@@ -10,9 +10,11 @@ class BraidFuncEnvironment
         @args = []
         # following bounds are inclusive
         @cell_min = 0
-        @cell_max = 255
+        @cell_max = 256
         
     end
+    
+    attr_reader :tape
     
     def clamp
         @tape[@ptr] = (@tape[@ptr] - @cell_min) % @cell_max + @cell_min
@@ -21,6 +23,18 @@ class BraidFuncEnvironment
     def set_cell!(v)
         @tape[@ptr] = v
         clamp
+    end
+    
+    def get_cell
+        @tape[@ptr] ||= @cell_min
+    end
+    
+    def truthy?
+        get_cell != @cell_min
+    end
+    
+    def falsey?
+        get_cell == @cell_min
     end
     
     def increment!

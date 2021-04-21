@@ -6,10 +6,9 @@
 # Apr. 21, 2021. 03:13
 # Work begins
 require_relative "ReadStream.rb"
+require_relative "Interpreter.rb"
 
-# a = ReadStream.new STDIN
-a = ReadStream.new File.open "README.md"
 
-13.times {
-    puts a.read 1
-}
+inst = BraidFuncInterpreter.new ReadStream.from_file "examples/simple.bfnc"
+inst.run
+p inst
